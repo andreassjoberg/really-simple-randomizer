@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Randomizer</title>
+        <link rel="stylesheet" href="bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="bootstrap.min.js"></script>
+        <script type="text/javascript" src="script.js"></script>
+    </head>
+    <body class="text-center">
+        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+            <main role="main" class="inner cover">
+                <h1 class="cover-heading">Randomizer</h1>
+                <p class="lead">
+                    Paste (or type) your input data below, one entry per line, and the order of them will be randomized.
+                </p>
+                <p class="lead">
+                    <textarea rows="6" cols="50" class="form-control" id="textAreaInput"></textarea>
+                </p>
+                <p class="lead">
+                        <div id="statusOutput" class="alert alert-success collapse" role="alert">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            Randomization complete
+                        </div>
+                    </p>
+                    <div class="lead container-fluid">
+                    <a href="#" onclick="randomizeInput()" class="btn btn-lg btn-secondary" id="randomizeButton">Randomize</a>
+                    <div class="row justify-content-around">
+                        <a href="#" onclick="showNext()" class="btn btn-lg btn-primary col-4" id="nextButton" style="display: none">Show next</a>
+                        <a href="#" onclick="showAll()" class="btn btn-lg btn-secondary col-4" id="allButton" style="display: none">Show all</a>
+                    </div>
+                </div>
+                <p class="lead">
+                    <span id="resultOutput"></span>
+                </p>
+            </main>
+
+            <footer class="mastfoot mt-auto">
+                <div class="inner">
+                    <p>
+                        Randomizer made by <a href="https://andreassjoberg.com/" target="_blank">Andreas Sjöberg</a>.
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
