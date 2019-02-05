@@ -32,7 +32,8 @@ function randomizeInput() {
 function showNext() {
     $("#statusOutput").hide('fast');
     if (showNextId < result.length) {
-        document.getElementById("resultOutput").innerHTML = result.filter((_item, index) => index <= showNextId).join("<br />");
+        document.getElementById("resultOutput").innerHTML = result.filter((_item, index) => index <= showNextId)
+            .reduce((prev, current, index) => prev += '<div' + (index >= showNextId ? ' class=tracking-in-contract-bck-bottom' : '') + '>' + current + '</div>', '');
         showNextId += 1;
     }
     if (showNextId >= result.length) {
@@ -42,7 +43,8 @@ function showNext() {
 
 function showAll() {
     $("#statusOutput").hide('fast');
-    document.getElementById("resultOutput").innerHTML = result.join("<br />");
+    document.getElementById("resultOutput").innerHTML = result
+    .reduce((prev, current, index) => prev += '<div' + (index >= showNextId ? ' class=tracking-in-contract-bck-bottom' : '') + '>' + current + '</div>', '');
     allIsShown();
 }
 
