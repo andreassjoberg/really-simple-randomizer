@@ -18,14 +18,13 @@ function randomizeInput() {
         };
         $(window).bind('beforeunload', beforeUnloadFunction);
 
-        $("#randomizeButton").hide('slow', function() {
-            $("#textAreaInput").hide('slow', function() {
-                $("#statusOutput").show('slow', function() {
-                    setTimeout(() => $("#statusOutput").hide('slow'), 1200);
-                    $("#nextButton").show('fast');
-                    $("#allButton").show('fast');
-                });
-            });
+        $("#randomizeButton").hide('slow');
+        $("#description").hide('slow');
+        $("#textAreaInput").hide('slow');
+        $("#statusOutput").show('slow', function() {
+            setTimeout(() => $("#statusOutput").hide('slow'), 1200);
+            $("#nextButton").show('fast');
+            $("#allButton").show('fast');
         });
     }
 }
@@ -49,7 +48,7 @@ function showAll() {
 
 function renderItems(items, numberOfItems) {
     return items
-        .reduce((prev, current, index) => prev += '<div' + (index >= showNextId ? ' class=tracking-in-contract-bck-bottom' : '') + '>' + (numberOfItems - index) + '. ' + current + '</div>', '');
+        .reduce((prev, current, index) => prev += `<div${(index >= showNextId ? ' class=tracking-in-contract-bck-bottom' : '')}>${numberOfItems - index}. ${current}</div>`, '');
 }
 
 function allIsShown() {
