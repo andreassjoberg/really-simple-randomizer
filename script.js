@@ -21,6 +21,7 @@ function randomizeInput() {
         $("#randomizeButton").hide('slow', function() {
             $("#textAreaInput").hide('slow', function() {
                 $("#statusOutput").show('slow', function() {
+                    setTimeout(() => $("#statusOutput").hide('slow'), 1200);
                     $("#nextButton").show('fast');
                     $("#allButton").show('fast');
                 });
@@ -32,8 +33,7 @@ function randomizeInput() {
 function showNext() {
     $("#statusOutput").hide('fast');
     if (showNextId < result.length) {
-        document.getElementById("resultOutput").innerHTML = result.filter((_item, index) => index <= showNextId)
-            .reduce((prev, current, index) => prev += '<div' + (index >= showNextId ? ' class=tracking-in-contract-bck-bottom' : '') + '>' + current + '</div>', '');
+        document.getElementById("resultOutput").innerHTML = renderItems(result.filter((_item, index) => index <= showNextId), result.length);
         showNextId += 1;
     }
     if (showNextId >= result.length) {
@@ -43,9 +43,13 @@ function showNext() {
 
 function showAll() {
     $("#statusOutput").hide('fast');
-    document.getElementById("resultOutput").innerHTML = result
-    .reduce((prev, current, index) => prev += '<div' + (index >= showNextId ? ' class=tracking-in-contract-bck-bottom' : '') + '>' + current + '</div>', '');
+    document.getElementById("resultOutput").innerHTML = renderItems(result, result.length);
     allIsShown();
+}
+
+function renderItems(items, numberOfItems) {
+    return items
+        .reduce((prev, current, index) => prev += '<div' + (index >= showNextId ? ' class=tracking-in-contract-bck-bottom' : '') + '>' + (numberOfItems - index) + '. ' + current + '</div>', '');
 }
 
 function allIsShown() {
