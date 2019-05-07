@@ -48,7 +48,7 @@ function showAll() {
 
 function renderItems(items, numberOfItems) {
     return items
-        .reduce((prev, current, index) => prev += `<div${(index >= showNextId ? ' class=tracking-in-contract-bck-bottom' : '')}>${numberOfItems - index}. ${current}</div>`, '');
+        .reduce((prev, current, index) => `<div${(index >= showNextId ? ' class="animated bounceInDown"' : '')}>${numberOfItems - index}. ${current}</div>` + prev, '');
 }
 
 function allIsShown() {

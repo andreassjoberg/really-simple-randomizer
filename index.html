@@ -6,14 +6,15 @@
         <title>Randomizer</title>
         <link rel="shortcut icon" type="image/png" href="favicon.png"/>
         <link rel="stylesheet" href="bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="animate.min.css" type="text/css" />
         <link rel="stylesheet" href="style.css" type="text/css" />
         <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
         <script type="text/javascript" src="bootstrap.min.js"></script>
         <script type="text/javascript" src="script.js"></script>
     </head>
     <body class="text-center">
-        <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-            <main role="main" class="inner cover">
+        <div class="cover-container d-flex w-100 h-100 mx-auto flex-column">
+            <header class="sticky-top my-3">
                 <h1 class="cover-heading">Randomizer</h1>
                 <p class="lead" id="description">
                     Paste (or type) your input data below, one entry per line, and the order of them will be randomized.
@@ -34,6 +35,8 @@
                         <a href="#" onclick="showAll()" class="btn btn-lg btn-secondary col-4" id="allButton" style="display: none">Show all</a>
                     </div>
                 </div>
+            </header>
+            <main role="main" class="inner cover">
                 <div id="resultOutput" class="lead"></div>
             </main>
 
