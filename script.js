@@ -21,8 +21,8 @@ function randomizeInput() {
         $("#randomizeButton").hide('slow');
         $("#description").hide('slow');
         $("#textAreaInput").hide('slow');
-        $("#statusOutput").show('slow', function() {
-            setTimeout(() => $("#statusOutput").hide('slow'), 1200);
+        $("#statusOutput").show('fast', function() {
+            setTimeout(() => $("#statusOutput").hide('fast'), 1000);
             $("#nextButton").show('fast');
             $("#allButton").show('fast');
         });
@@ -53,8 +53,8 @@ function renderItems(items, numberOfItems) {
 
 function allIsShown() {
     $(window).unbind('beforeunload', beforeUnloadFunction);
-    $("#nextButton").hide('fast');
-    $("#allButton").hide('fast');
+    $("#nextButton").addClass('disabled');
+    $("#allButton").addClass('disabled');
 }
 
 function getRandomNumber(max) {
