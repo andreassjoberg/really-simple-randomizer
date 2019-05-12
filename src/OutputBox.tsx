@@ -57,7 +57,19 @@ export default class OutputBox extends Component<Props, State> {
         this.setState({ left: left, drawn: drawn, next: next });
     }
 
-    drawAll() {}
+    drawAll() {
+        let { left, drawn, next } = this.state;
+
+        while (left.length > 0) {
+            if (next) {
+                drawn.unshift(next);
+            }
+
+            next = left.pop();
+        }
+
+        this.setState({ left: left, drawn: drawn, next: next });
+    }
 
     render() {
         let { names } = this.props;
@@ -66,7 +78,6 @@ export default class OutputBox extends Component<Props, State> {
         return names.length > 0 ? (
             <div>
                 <div className="row justify-content-center my-3">
-                    {/* <div className="col-md-8"> */}
                     <button
                         type="button"
                         className="btn btn-primary"
@@ -83,7 +94,6 @@ export default class OutputBox extends Component<Props, State> {
                     >
                         Show all
                     </button>
-                    {/* </div> */}
                 </div>
                 <div className="row justify-content-md-center">
                     <div className="col-md-8">
