@@ -98,7 +98,7 @@ export default class OutputBox extends Component<Props, State> {
                 <div className="row justify-content-md-center">
                     <div className="col-md-8">
                         {next ? (
-                            <div className="card bg-primary">
+                            <div key={Date.now()} className="card bg-primary animated flipInX">
                                 <div className="card-body">
                                     {names.length - drawn.length}. {next}
                                 </div>
