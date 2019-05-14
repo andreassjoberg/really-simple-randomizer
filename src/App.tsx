@@ -16,6 +16,8 @@ type State = {
     randomized: boolean;
 };
 
+const getRandomNumber = (max: number) => Math.floor(Math.random() * max);
+
 export default class App extends Component<{}, State> {
     constructor(props: Readonly<{}>) {
         super(props);
@@ -29,7 +31,19 @@ export default class App extends Component<{}, State> {
     }
 
     namesPosted(names: string[]) {
-        this.setState({ names: names, randomized: true });
+        this.setState({ isLoading: true });
+
+        let unrandomized = [...names];
+        let randomized = [];
+
+        while (unrandomized.length > 0) {
+            let nextIndex = getRandomNumber(unrandomized.length);
+            let pickedItem = unrandomized[nextIndex];
+            randomized.push(pickedItem);
+            unrandomized = unrandomized.filter((_item, index) => index !== nextIndex);
+        }
+
+        this.setState({ names: randomized, isLoading: false, randomized: true });
     }
 
     errorRaised(error: string) {

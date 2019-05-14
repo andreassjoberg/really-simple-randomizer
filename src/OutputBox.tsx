@@ -9,8 +9,6 @@ type State = {
     drawn: string[];
 };
 
-const getRandomNumber = (max: number) => Math.floor(Math.random() * max);
-
 const isFirst = (leftCount: number, index: number) => leftCount + index === 0;
 const isSecond = (leftCount: number, index: number) => leftCount + index === 1;
 const isThird = (leftCount: number, index: number) => leftCount + index === 2;
@@ -36,24 +34,16 @@ export default class OutputBox extends Component<Props, State> {
 
     componentDidUpdate(prevProps: Readonly<Props>) {
         if (prevProps.names.length === 0 && this.props.names.length > 0) {
-            this.randomize();
+            this.reset();
         }
     }
 
-    randomize() {
+    reset() {
         let { names } = this.props;
 
-        let unrandomized = [...names];
-        let randomized = [];
+        let left = [...names];
 
-        while (unrandomized.length > 0) {
-            let nextIndex = getRandomNumber(unrandomized.length);
-            let pickedItem = unrandomized[nextIndex];
-            randomized.push(pickedItem);
-            unrandomized = unrandomized.filter((_item, index) => index !== nextIndex);
-        }
-
-        this.setState({ left: randomized, drawn: [] });
+        this.setState({ left: left, drawn: [] });
     }
 
     drawNext() {
