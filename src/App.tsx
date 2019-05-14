@@ -33,17 +33,27 @@ export default class App extends Component<{}, State> {
     namesPosted(names: string[]) {
         this.setState({ isLoading: true });
 
-        let unrandomized = [...names];
-        let randomized = [];
+        this.randomize(names).then(randomized =>
+            this.setState({ names: randomized, isLoading: false, randomized: true })
+        );
+    }
 
-        while (unrandomized.length > 0) {
-            let nextIndex = getRandomNumber(unrandomized.length);
-            let pickedItem = unrandomized[nextIndex];
-            randomized.push(pickedItem);
-            unrandomized = unrandomized.filter((_item, index) => index !== nextIndex);
-        }
+    randomize(names: string[]) {
+        return new Promise<string[]>(resolve => {
+            setTimeout(() => {
+                let unrandomized = [...names];
+                let randomized = [];
 
-        this.setState({ names: randomized, isLoading: false, randomized: true });
+                while (unrandomized.length > 0) {
+                    let nextIndex = getRandomNumber(unrandomized.length);
+                    let pickedItem = unrandomized[nextIndex];
+                    randomized.push(pickedItem);
+                    unrandomized = unrandomized.filter((_item, index) => index !== nextIndex);
+                }
+
+                resolve(randomized);
+            }, 0);
+        });
     }
 
     errorRaised(error: string) {
