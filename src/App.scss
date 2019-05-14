@@ -19,6 +19,18 @@
   z-index:1000;
 }
 
+.is-first {
+  background-color: $yellow !important;
+}
+
+.is-second {
+  background-color: $gray-500 !important;
+}
+
+.is-third {
+  background-color: #CA6F1E !important;
+}
+
 .loader {
   display: inline-block;
   position: relative;

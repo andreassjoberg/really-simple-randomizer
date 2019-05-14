@@ -7,11 +7,13 @@ import Loader from "./Loader";
 import InputForm from "./InputForm";
 import OutputBox from "./OutputBox";
 import Footer from "./Footer";
+import DoneBox from "./DoneBox";
 
 type State = {
     isLoading: boolean;
     error: string | undefined;
     names: string[];
+    randomized: boolean;
 };
 
 export default class App extends Component<{}, State> {
@@ -21,12 +23,13 @@ export default class App extends Component<{}, State> {
         this.state = {
             isLoading: false,
             error: undefined,
-            names: []
+            names: [],
+            randomized: false
         };
     }
 
     namesPosted(names: string[]) {
-        this.setState({ names: names });
+        this.setState({ names: names, randomized: true });
     }
 
     errorRaised(error: string) {
@@ -38,9 +41,12 @@ export default class App extends Component<{}, State> {
     }
 
     render() {
-        let { error, isLoading, names } = this.state;
+        let { error, isLoading, names, randomized } = this.state;
+
         return (
             <div className="container">
+                {randomized ? <DoneBox /> : null}
+
                 <Header />
 
                 <ErrorBox error={error} dismiss={() => this.resetError()} />

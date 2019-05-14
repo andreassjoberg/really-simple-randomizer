@@ -7,10 +7,22 @@ type Props = {
 type State = {
     left: string[];
     drawn: string[];
-    next: string | undefined;
 };
 
 const getRandomNumber = (max: number) => Math.floor(Math.random() * max);
+
+const isFirst = (leftCount: number, index: number) => leftCount + index === 0;
+const isSecond = (leftCount: number, index: number) => leftCount + index === 1;
+const isThird = (leftCount: number, index: number) => leftCount + index === 2;
+
+const getPositionClass = (leftCount: number, index: number) =>
+    isFirst(leftCount, index)
+        ? "is-first"
+        : isSecond(leftCount, index)
+        ? "is-second"
+        : isThird(leftCount, index)
+        ? "is-third"
+        : "";
 
 export default class OutputBox extends Component<Props, State> {
     constructor(props: Readonly<Props>) {
@@ -18,8 +30,7 @@ export default class OutputBox extends Component<Props, State> {
 
         this.state = {
             left: [],
-            drawn: [],
-            next: undefined
+            drawn: []
         };
     }
 
@@ -42,38 +53,34 @@ export default class OutputBox extends Component<Props, State> {
             unrandomized = unrandomized.filter((_item, index) => index !== nextIndex);
         }
 
-        this.setState({ left: randomized, drawn: [], next: undefined });
+        this.setState({ left: randomized, drawn: [] });
     }
 
     drawNext() {
-        let { left, drawn, next } = this.state;
+        let { left, drawn } = this.state;
 
-        if (next) {
+        if (left.length > 0) {
+            let next = left.pop() || "";
             drawn.unshift(next);
         }
 
-        next = left.pop();
-
-        this.setState({ left: left, drawn: drawn, next: next });
+        this.setState({ left: left, drawn: drawn });
     }
 
     drawAll() {
-        let { left, drawn, next } = this.state;
+        let { left, drawn } = this.state;
 
         while (left.length > 0) {
-            if (next) {
-                drawn.unshift(next);
-            }
-
-            next = left.pop();
+            let next = left.pop() || "";
+            drawn.unshift(next);
         }
 
-        this.setState({ left: left, drawn: drawn, next: next });
+        this.setState({ left: left, drawn: drawn });
     }
 
     render() {
         let { names } = this.props;
-        let { left, drawn, next } = this.state;
+        let { left, drawn } = this.state;
 
         return names.length > 0 ? (
             <div>
@@ -97,16 +104,12 @@ export default class OutputBox extends Component<Props, State> {
                 </div>
                 <div className="row justify-content-md-center">
                     <div className="col-md-8">
-                        {next ? (
-                            <div key={Date.now()} className="card bg-primary animated flipInX">
-                                <div className="card-body">
-                                    {names.length - drawn.length}. {next}
-                                </div>
-                            </div>
-                        ) : null}
                         {drawn.map((name, index) => (
-                            <div key={index} className="card">
-                                <div className="card-body">
+                            <div
+                                key={`${index}-${Date.now()}`}
+                                className={`card ${index === 0 ? "animated flipInX" : ""}`}
+                            >
+                                <div className={`card-body ${getPositionClass(left.length, index)}`}>
                                     {1 + names.length - (drawn.length - index)}. {name}
                                 </div>
                             </div>
