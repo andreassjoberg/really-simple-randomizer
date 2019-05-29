@@ -50,7 +50,7 @@ export default class OutputBox extends Component<Props, State> {
         let { left, drawn } = this.state;
 
         if (left.length > 0) {
-            let next = left.pop() || "";
+            let next = left.shift() || "";
             drawn.unshift(next);
         }
 
@@ -61,7 +61,7 @@ export default class OutputBox extends Component<Props, State> {
         let { left, drawn } = this.state;
 
         while (left.length > 0) {
-            let next = left.pop() || "";
+            let next = left.shift() || "";
             drawn.unshift(next);
         }
 
