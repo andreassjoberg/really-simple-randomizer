@@ -36,7 +36,7 @@ export default class InputForm extends Component<Props> {
                         Paste (or type) your input data below, one entry per line, and the order of them will be
                         randomized.
                     </p>
-                    <textarea rows={6} className="form-control" ref={ref => (this.textArea = ref)} />
+                    <textarea rows={6} className="form-control" ref={ref => (this.textArea = ref)} autoFocus />
                     <button type="button" className="btn btn-primary mt-3" onClick={() => this.buttonClicked()}>
                         Randomize!
                     </button>
