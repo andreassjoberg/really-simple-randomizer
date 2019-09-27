@@ -14,6 +14,7 @@ type State = {
     error: string | undefined;
     names: string[];
     randomized: boolean;
+    winners: number;
 };
 
 const getRandomNumber = (max: number) => Math.floor(Math.random() * max);
@@ -26,12 +27,13 @@ export default class App extends Component<{}, State> {
             isLoading: false,
             error: undefined,
             names: [],
-            randomized: false
+            randomized: false,
+            winners: 0
         };
     }
 
-    namesPosted(names: string[]) {
-        this.setState({ isLoading: true });
+    namesPosted(names: string[], winners: number) {
+        this.setState({ isLoading: true, winners: winners > 0 ? winners : 3 });
 
         this.randomize(names).then(randomized =>
             this.setState({ names: randomized, isLoading: false, randomized: true })
@@ -65,7 +67,7 @@ export default class App extends Component<{}, State> {
     }
 
     render() {
-        let { error, isLoading, names, randomized } = this.state;
+        let { error, isLoading, names, randomized, winners } = this.state;
 
         return (
             <div className="container">
@@ -78,10 +80,10 @@ export default class App extends Component<{}, State> {
 
                 <InputForm
                     names={names}
-                    postInput={names => this.namesPosted(names)}
+                    postInput={(names, winners) => this.namesPosted(names, winners)}
                     raiseError={error => this.errorRaised(error)}
                 />
-                <OutputBox names={names} />
+                <OutputBox names={names} winners={winners} />
 
                 <Footer />
             </div>

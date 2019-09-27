@@ -2,24 +2,34 @@ import React, { Component } from "react";
 
 type Props = {
     names: string[];
-    postInput(names: string[]): void;
+    postInput(names: string[], winners: number): void;
     raiseError(message: string): void;
 };
 
 export default class InputForm extends Component<Props> {
     textArea: HTMLTextAreaElement | null = null;
+    winners: React.RefObject<HTMLInputElement> | null | undefined;
+
+    constructor(props: Readonly<Props>) {
+        super(props);
+
+        this.winners = React.createRef();
+    }
 
     buttonClicked() {
         let { postInput, raiseError } = this.props;
 
         let input = this.textArea ? this.textArea.value : "";
+        let winners = this.winners && this.winners.current ? Number(this.winners.current.value) : 3;
+
+        winners = isNaN(winners) ? 3 : winners;
 
         let names = input
             .split(/\n/)
             .map(s => s.trim())
             .filter(s => s !== undefined && s !== null && s !== "");
         if (names.length > 0) {
-            postInput(names);
+            postInput(names, winners);
             return;
         }
 
@@ -37,9 +47,23 @@ export default class InputForm extends Component<Props> {
                         randomized.
                     </p>
                     <textarea rows={6} className="form-control" ref={ref => (this.textArea = ref)} autoFocus />
-                    <button type="button" className="btn btn-primary mt-3" onClick={() => this.buttonClicked()}>
-                        Randomize!
-                    </button>
+
+                    <div className="row">
+                        <div className="col">
+                            <button type="button" className="btn btn-primary mt-3" onClick={() => this.buttonClicked()}>
+                                Randomize!
+                            </button>
+                        </div>
+                        <div className="align-self-center col text-right">
+                            Winners{" "}
+                            <input
+                                type="input"
+                                defaultValue="3"
+                                className="bg-dark border-0 pr-2 text-right text-white"
+                                ref={this.winners}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         ) : null;
