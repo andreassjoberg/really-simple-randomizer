@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBeer } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
     names: string[];
+    winners: number;
 };
 
 type State = {
@@ -68,6 +71,13 @@ export default class OutputBox extends Component<Props, State> {
         this.setState({ left: left, drawn: drawn });
     }
 
+    isWinner(index: number) {
+        let { left } = this.state;
+        let { winners } = this.props;
+
+        return left.length + index < winners;
+    }
+
     render() {
         let { names } = this.props;
         let { left, drawn } = this.state;
@@ -100,6 +110,7 @@ export default class OutputBox extends Component<Props, State> {
                                 className={`card ${index === 0 ? "animated flipInX" : ""}`}
                             >
                                 <div className={`card-body ${getPositionClass(left.length, index)}`}>
+                                    {this.isWinner(index) ? <FontAwesomeIcon icon={faBeer} className="mr-2" /> : null}{" "}
                                     {1 + names.length - (drawn.length - index)}. {name}
                                 </div>
                             </div>
