@@ -15,7 +15,7 @@ export default class DoneBox extends Component<{}, State> {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         let timer = setTimeout(() => this.hide(), 2000);
 
         this.setState({ show: true, timer: timer });
