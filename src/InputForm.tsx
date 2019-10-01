@@ -1,12 +1,13 @@
-import React, { Component } from "react";
+import React from "react";
+import { withAlert, AlertManager } from "react-alert";
 
-type Props = {
+interface Props {
+    alert: AlertManager;
     names: string[];
     postInput(names: string[], winners: number): void;
-    raiseError(message: string): void;
-};
+}
 
-export default class InputForm extends Component<Props> {
+class InputForm extends React.Component<Props> {
     textArea: HTMLTextAreaElement | null = null;
     winners: React.RefObject<HTMLInputElement> | null | undefined;
 
@@ -17,8 +18,6 @@ export default class InputForm extends Component<Props> {
     }
 
     buttonClicked() {
-        let { postInput, raiseError } = this.props;
-
         let input = this.textArea ? this.textArea.value : "";
         let winners = this.winners && this.winners.current ? Number(this.winners.current.value) : 3;
 
@@ -29,11 +28,11 @@ export default class InputForm extends Component<Props> {
             .map(s => s.trim())
             .filter(s => s !== undefined && s !== null && s !== "");
         if (names.length > 0) {
-            postInput(names, winners);
+            this.props.postInput(names, winners);
             return;
         }
 
-        raiseError("Please input some data before submitting.");
+        this.props.alert.error("Please input some data before submitting.");
     }
 
     render() {
@@ -69,3 +68,5 @@ export default class InputForm extends Component<Props> {
         ) : null;
     }
 }
+
+export default (withAlert() as any)(InputForm);
