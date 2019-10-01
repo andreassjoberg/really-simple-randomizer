@@ -8,6 +8,14 @@ export default class Footer extends Component {
                     <a href="https://www.andreassjoberg.com/" target="_blank" rel="noopener noreferrer">
                         Andreas Sjöberg
                     </a>
+                    <span className="mx-1">with</span>
+                    <a
+                        href="https://github.com/andreassjoberg/really-simple-randomizer/graphs/contributors"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        contributors
+                    </a>
                     &nbsp;[
                     <a
                         href="https://github.com/andreassjoberg/really-simple-randomizer"
