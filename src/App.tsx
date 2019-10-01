@@ -1,33 +1,33 @@
-import React, { Component } from "react";
+import React from "react";
+import { withAlert, AlertManager } from "react-alert";
+
 import "./App.scss";
 
 import Header from "./Header";
-import ErrorBox from "./ErrorBox";
 import Loader from "./Loader";
 import InputForm from "./InputForm";
 import OutputBox from "./OutputBox";
 import Footer from "./Footer";
-import DoneBox from "./DoneBox";
 
-type State = {
+interface State {
     isLoading: boolean;
-    error: string | undefined;
     names: string[];
-    randomized: boolean;
     winners: number;
-};
+}
+
+interface Props {
+    alert: AlertManager;
+}
 
 const getRandomNumber = (max: number) => Math.floor(Math.random() * max);
 
-export default class App extends Component<{}, State> {
-    constructor(props: Readonly<{}>) {
+class App extends React.Component<Props, State> {
+    constructor(props: Readonly<Props>) {
         super(props);
 
         this.state = {
             isLoading: false,
-            error: undefined,
             names: [],
-            randomized: false,
             winners: 0
         };
     }
@@ -35,9 +35,10 @@ export default class App extends Component<{}, State> {
     namesPosted(names: string[], winners: number) {
         this.setState({ isLoading: true, winners: winners > 0 ? winners : 3 });
 
-        this.randomize(names).then(randomized =>
-            this.setState({ names: randomized, isLoading: false, randomized: true })
-        );
+        this.randomize(names).then(randomized => {
+            this.setState({ names: randomized, isLoading: false });
+            this.props.alert.success("Randomization complete!");
+        });
     }
 
     randomize(names: string[]) {
@@ -58,35 +59,24 @@ export default class App extends Component<{}, State> {
         });
     }
 
-    errorRaised(error: string) {
-        this.setState({ error: error });
-    }
-
-    resetError() {
-        this.setState({ error: undefined });
-    }
-
     render() {
-        let { error, isLoading, names, randomized, winners } = this.state;
-
         return (
             <div className="container">
-                {randomized ? <DoneBox /> : null}
-
                 <Header />
 
-                <ErrorBox error={error} dismiss={() => this.resetError()} />
-                <Loader isLoading={isLoading} />
+                <Loader isLoading={this.state.isLoading} />
 
                 <InputForm
-                    names={names}
-                    postInput={(names, winners) => this.namesPosted(names, winners)}
-                    raiseError={error => this.errorRaised(error)}
+                    names={this.state.names}
+                    postInput={(names: string[], winners: number) => this.namesPosted(names, winners)}
                 />
-                <OutputBox names={names} winners={winners} />
+
+                <OutputBox names={this.state.names} winners={this.state.winners} />
 
                 <Footer />
             </div>
         );
     }
 }
+
+export default withAlert()(App);
