@@ -12,19 +12,6 @@ type State = {
     drawn: string[];
 };
 
-const isFirst = (leftCount: number, index: number) => leftCount + index === 0;
-const isSecond = (leftCount: number, index: number) => leftCount + index === 1;
-const isThird = (leftCount: number, index: number) => leftCount + index === 2;
-
-const getPositionClass = (leftCount: number, index: number) =>
-    isFirst(leftCount, index)
-        ? "is-first"
-        : isSecond(leftCount, index)
-        ? "is-second"
-        : isThird(leftCount, index)
-        ? "is-third"
-        : "";
-
 export default class OutputBox extends Component<Props, State> {
     constructor(props: Readonly<Props>) {
         super(props);
@@ -109,7 +96,7 @@ export default class OutputBox extends Component<Props, State> {
                                 key={`${index}-${Date.now()}`}
                                 className={`card ${index === 0 ? "animated flipInX" : ""}`}
                             >
-                                <div className={`card-body ${getPositionClass(left.length, index)}`}>
+                                <div className={`card-body ${this.isWinner(index) ? 'is-winner' : null}`}>
                                     {this.isWinner(index) ? <FontAwesomeIcon icon={faBeer} className="mr-2" /> : null}{" "}
                                     {1 + names.length - (drawn.length - index)}. {name}
                                 </div>
