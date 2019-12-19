@@ -93,7 +93,7 @@ export default class OutputBox extends Component<Props, State> {
                     <div className="col-md-8">
                         {drawn.map((name, index) => (
                             <div
-                                key={`${index}-${Date.now()}`}
+                                key={`${index}-${drawn.length}`}
                                 className={`card ${index === 0 ? "animated flipInX" : ""}`}
                             >
                                 <div className={`card-body ${this.isWinner(index) ? 'is-winner' : null}`}>
