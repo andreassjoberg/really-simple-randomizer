@@ -48,12 +48,12 @@ class InputForm extends React.Component<Props> {
                     <textarea rows={6} className="form-control" ref={ref => (this.textArea = ref)} autoFocus />
 
                     <div className="row">
-                        <div className="col">
+                        <div className="col-12 col-sm-6 order-1 order-sm-0 text-center text-sm-left">
                             <button type="button" className="btn btn-primary mt-3" onClick={() => this.buttonClicked()}>
                                 Randomize!
                             </button>
                         </div>
-                        <div className="align-self-center col text-right">
+                        <div className="col-12 col-sm-6 mt-3 text-center text-sm-left">
                             Winners{" "}
                             <input
                                 type="input"

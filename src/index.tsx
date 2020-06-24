@@ -5,11 +5,9 @@ import { Provider as AlertProvider } from "react-alert";
 
 import App from "./App";
 import AlertOptions from "./AlertOptions";
-import Snowfall from 'react-snowfall';
 
 ReactDOM.render(
     <AlertProvider {...AlertOptions}>
-        <Snowfall color="white" snowflakeCount={350}></Snowfall>
         <App />
     </AlertProvider>,
     document.getElementById("root")

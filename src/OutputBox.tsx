@@ -94,9 +94,9 @@ export default class OutputBox extends Component<Props, State> {
                         {drawn.map((name, index) => (
                             <div
                                 key={`${index}-${drawn.length}`}
-                                className={`card ${index === 0 ? "animated flipInX" : ""}`}
+                                className={`card${index === 0 ? " animated flipInX" : ""}`}
                             >
-                                <div className={`card-body ${this.isWinner(index) ? 'is-winner' : null}`}>
+                                <div className={`card-body${this.isWinner(index) ? " is-winner" : ""}`}>
                                     {this.isWinner(index) ? <FontAwesomeIcon icon={faBeer} className="mr-2" /> : null}{" "}
                                     {1 + names.length - (drawn.length - index)}. {name}
                                 </div>
