@@ -4,6 +4,26 @@
 
 This is a simple project for randomizing, almost like a lottery.
 
+### Algorithm
+
+The algorithm for randomizing is as follows:
+
+```ts
+// Get random number with max
+const getRandomNumber = (max: number) => Math.floor(Math.random() * max);
+
+// Loop for ordering input <names>
+let unrandomized = [...names];
+let randomized = [];
+
+while (unrandomized.length > 0) {
+  let nextIndex = getRandomNumber(unrandomized.length);
+  let pickedItem = unrandomized[nextIndex];
+  randomized.push(pickedItem);
+  unrandomized = unrandomized.filter((_item, index) => index !== nextIndex);
+}
+```
+
 ## Available Scripts
 
 In the project directory, you can run:
