@@ -1,5 +1,9 @@
 # really-simple-randomizer
 
+## Description
+
+This is a simple project for randomizing, almost like a lottery.
+
 ## Available Scripts
 
 In the project directory, you can run:
