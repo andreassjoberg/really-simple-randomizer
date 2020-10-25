@@ -1,5 +1,5 @@
-import React from "react";
-import { withAlert, AlertManager } from "react-alert";
+import React, { useState, useCallback } from "react";
+import { useAlert } from "react-alert";
 
 import "./App.scss";
 
@@ -9,39 +9,17 @@ import InputForm from "./InputForm";
 import OutputBox from "./OutputBox";
 import Footer from "./Footer";
 
-interface State {
-    isLoading: boolean;
-    names: string[];
-    winners: number;
-}
-
-interface Props {
-    alert: AlertManager;
-}
 
 const getRandomNumber = (max: number) => Math.floor(Math.random() * max);
 
-class App extends React.Component<Props, State> {
-    constructor(props: Readonly<Props>) {
-        super(props);
+const App = () => {
+    const [names, setNames] = useState<string[]>([]);
+    const [winners, setWinners] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-        this.state = {
-            isLoading: false,
-            names: [],
-            winners: 0
-        };
-    }
+    const alert = useAlert();
 
-    namesPosted(names: string[], winners: number) {
-        this.setState({ isLoading: true, winners: winners > 0 ? winners : 3 });
-
-        this.randomize(names).then(randomized => {
-            this.setState({ names: randomized, isLoading: false });
-            this.props.alert.success("Randomization complete!");
-        });
-    }
-
-    randomize(names: string[]) {
+    const randomize = useCallback((names: string[]) => {
         return new Promise<string[]>(resolve => {
             setTimeout(() => {
                 let unrandomized = [...names];
@@ -57,26 +35,36 @@ class App extends React.Component<Props, State> {
                 resolve(randomized);
             }, 0);
         });
-    }
+    },[]);
 
-    render() {
-        return (
-            <div className="container">
-                <Header />
+    const namesPosted = useCallback((names: string[], winners: number) => {
+        setIsLoading(true);
+        setWinners(winners > 0 ? winners : 3);
 
-                <Loader isLoading={this.state.isLoading} />
+        randomize(names).then(randomized => {
+            setNames(randomized);
+            setIsLoading(false);
 
-                <InputForm
-                    names={this.state.names}
-                    postInput={(names: string[], winners: number) => this.namesPosted(names, winners)}
-                />
+            alert.success("Randomization complete!");
+        });
+    }, [alert, randomize]);
 
-                <OutputBox names={this.state.names} winners={this.state.winners} />
+    return (
+        <div className="container">
+        <Header />
 
-                <Footer />
-            </div>
-        );
-    }
-}
+        <Loader isLoading={isLoading} />
 
-export default withAlert()(App);
+        <InputForm
+            names={names}
+            postInput={namesPosted}
+        />
+
+        <OutputBox names={names} winners={winners} />
+
+        <Footer />
+    </div>
+    );
+};
+
+export default App;
