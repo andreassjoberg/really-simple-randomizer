@@ -1,72 +1,74 @@
-import React from "react";
-import { withAlert, AlertManager } from "react-alert";
+import React, { useCallback, useRef } from "react";
+import { useAlert } from "react-alert";
 
-interface Props {
-    alert: AlertManager;
-    names: string[];
-    postInput(names: string[], winners: number): void;
+interface InputFormProps {
+  names: string[];
+  postInput(names: string[], winners: number): void;
 }
 
-class InputForm extends React.Component<Props> {
-    textArea: HTMLTextAreaElement | null = null;
-    winners: React.RefObject<HTMLInputElement> | null | undefined;
+const InputForm = ({ names, postInput }: InputFormProps) => {
+  const alert = useAlert();
 
-    constructor(props: Readonly<Props>) {
-        super(props);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const winnersRef = useRef<HTMLInputElement>(null);
 
-        this.winners = React.createRef();
+  const handleButtonClick = useCallback(() => {
+    const input = textAreaRef.current ? textAreaRef.current.value : "";
+    const winners =
+      winnersRef.current && !isNaN(Number(winnersRef.current.value))
+        ? Number(winnersRef.current.value)
+        : 3;
+
+    const names = input
+      .split(/\n/)
+      .map((s) => s.trim())
+      .filter((s) => s !== undefined && s !== null && s !== "");
+
+    if (names.length > 0) {
+      postInput(names, winners);
+      return;
     }
 
-    buttonClicked() {
-        let input = this.textArea ? this.textArea.value : "";
-        let winners = this.winners && this.winners.current ? Number(this.winners.current.value) : 3;
+    alert.error("Please input some data before submitting.");
+  }, [alert, postInput]);
 
-        winners = isNaN(winners) ? 3 : winners;
+  return names.length <= 0 ? (
+    <div className="row justify-content-center">
+      <div className="col-md-8">
+        <p>
+          Paste (or type) your input data below, one entry per line, and the
+          order of them will be randomized.
+        </p>
+        <textarea
+          rows={6}
+          className="form-control"
+          ref={textAreaRef}
+          autoFocus
+        />
 
-        let names = input
-            .split(/\n/)
-            .map(s => s.trim())
-            .filter(s => s !== undefined && s !== null && s !== "");
-        if (names.length > 0) {
-            this.props.postInput(names, winners);
-            return;
-        }
+        <div className="row">
+          <div className="col-12 col-sm-6 order-1 order-sm-0 text-center text-sm-left">
+            <button
+              type="button"
+              className="btn btn-primary mt-3"
+              onClick={handleButtonClick}
+            >
+              Randomize!
+            </button>
+          </div>
+          <div className="col-12 col-sm-6 mt-3 text-center text-sm-left">
+            Winners{" "}
+            <input
+              type="input"
+              defaultValue="3"
+              className="bg-dark border-0 pr-2 text-right text-white"
+              ref={winnersRef}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : null;
+};
 
-        this.props.alert.error("Please input some data before submitting.");
-    }
-
-    render() {
-        let { names } = this.props;
-
-        return names.length <= 0 ? (
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <p>
-                        Paste (or type) your input data below, one entry per line, and the order of them will be
-                        randomized.
-                    </p>
-                    <textarea rows={6} className="form-control" ref={ref => (this.textArea = ref)} autoFocus />
-
-                    <div className="row">
-                        <div className="col-12 col-sm-6 order-1 order-sm-0 text-center text-sm-left">
-                            <button type="button" className="btn btn-primary mt-3" onClick={() => this.buttonClicked()}>
-                                Randomize!
-                            </button>
-                        </div>
-                        <div className="col-12 col-sm-6 mt-3 text-center text-sm-left">
-                            Winners{" "}
-                            <input
-                                type="input"
-                                defaultValue="3"
-                                className="bg-dark border-0 pr-2 text-right text-white"
-                                ref={this.winners}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        ) : null;
-    }
-}
-
-export default (withAlert() as any)(InputForm);
+export default InputForm;
