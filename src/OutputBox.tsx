@@ -1,110 +1,95 @@
-import React, { Component } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBeer } from "@fortawesome/free-solid-svg-icons";
 
-type Props = {
-    names: string[];
-    winners: number;
+type OutputBoxProps = {
+  names: string[];
+  winners: number;
 };
 
-type State = {
-    left: string[];
-    drawn: string[];
-};
+const OutputBox = ({ names, winners }: OutputBoxProps) => {
+  const [left, setLeft] = useState<string[]>([]);
+  const [drawn, setDrawn] = useState<string[]>([]);
 
-export default class OutputBox extends Component<Props, State> {
-    constructor(props: Readonly<Props>) {
-        super(props);
+  const drawNext = useCallback(() => {
+    if (left.length === 0) return;
 
-        this.state = {
-            left: [],
-            drawn: []
-        };
-    }
+    const next = left[0] || "";
+    const updatedLeft = left.slice(1);
 
-    componentDidUpdate(prevProps: Readonly<Props>) {
-        if (prevProps.names.length === 0 && this.props.names.length > 0) {
-            this.reset();
-        }
-    }
+    const updatedDrawn = [next, ...drawn];
 
-    reset() {
-        let { names } = this.props;
+    setLeft(updatedLeft);
+    setDrawn(updatedDrawn);
+  }, [drawn, left]);
 
-        let left = [...names];
+  const drawnAll = useCallback(() => {
+    const nextOnes = [...left].reverse();
 
-        this.setState({ left: left, drawn: [] });
-    }
+    const updatedDrawn = [...nextOnes, ...drawn];
 
-    drawNext() {
-        let { left, drawn } = this.state;
+    setLeft([]);
+    setDrawn(updatedDrawn);
+  }, [drawn, left]);
 
-        if (left.length > 0) {
-            let next = left.shift() || "";
-            drawn.unshift(next);
-        }
+  const checkIsWinner = useCallback(
+    (index: number) => {
+      return left.length + index < winners;
+    },
+    [left.length, winners]
+  );
 
-        this.setState({ left: left, drawn: drawn });
-    }
+  // RESET
+  useEffect(() => {
+    const updatedLeft = [...names];
 
-    drawAll() {
-        let { left, drawn } = this.state;
+    setLeft(updatedLeft);
+    setDrawn([]);
+  }, [names]);
 
-        while (left.length > 0) {
-            let next = left.shift() || "";
-            drawn.unshift(next);
-        }
-
-        this.setState({ left: left, drawn: drawn });
-    }
-
-    isWinner(index: number) {
-        let { left } = this.state;
-        let { winners } = this.props;
-
-        return left.length + index < winners;
-    }
-
-    render() {
-        let { names } = this.props;
-        let { left, drawn } = this.state;
-
-        return names.length > 0 ? (
-            <div>
-                <div className="row justify-content-center my-3">
-                    <button
-                        type="button"
-                        className="btn btn-primary"
-                        disabled={left.length === 0}
-                        onClick={() => this.drawNext()}
-                    >
-                        Show next
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-secondary ml-5"
-                        disabled={left.length === 0}
-                        onClick={() => this.drawAll()}
-                    >
-                        Show all
-                    </button>
-                </div>
-                <div className="row justify-content-md-center">
-                    <div className="col-md-8">
-                        {drawn.map((name, index) => (
-                            <div
-                                key={`${index}-${drawn.length}`}
-                                className={`card${index === 0 ? " animated backInDown" : ""}`}
-                            >
-                                <div className={`card-body${this.isWinner(index) ? " is-winner" : ""}`}>
-                                    {this.isWinner(index) ? <FontAwesomeIcon icon={faBeer} className="mr-2" /> : null}{" "}
-                                    {1 + names.length - (drawn.length - index)}. {name}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+  return names.length > 0 ? (
+    <div>
+      <div className="row justify-content-center my-3">
+        <button
+          type="button"
+          className="btn btn-primary"
+          disabled={left.length === 0}
+          onClick={drawNext}
+        >
+          Show next
+        </button>
+        <button
+          type="button"
+          className="btn btn-secondary ml-5"
+          disabled={left.length === 0}
+          onClick={drawnAll}
+        >
+          Show all
+        </button>
+      </div>
+      <div className="row justify-content-md-center">
+        <div className="col-md-8">
+          {drawn.map((name, index) => (
+            <div
+              key={`${index}-${drawn.length}`}
+              className={`card${index === 0 ? " animated backInDown" : ""}`}
+            >
+              <div
+                className={`card-body${
+                  checkIsWinner(index) ? " is-winner" : ""
+                }`}
+              >
+                {checkIsWinner(index) ? (
+                  <FontAwesomeIcon icon={faBeer} className="mr-2" />
+                ) : null}{" "}
+                {1 + names.length - (drawn.length - index)}. {name}
+              </div>
             </div>
-        ) : null;
-    }
-}
+          ))}
+        </div>
+      </div>
+    </div>
+  ) : null;
+};
+
+export default OutputBox;
