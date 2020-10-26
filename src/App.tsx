@@ -1,5 +1,5 @@
-import React from "react";
-import { withAlert, AlertManager } from "react-alert";
+import React, { useState, useCallback } from "react";
+import { useAlert } from "react-alert";
 
 import "./App.scss";
 
@@ -9,74 +9,63 @@ import InputForm from "./InputForm";
 import OutputBox from "./OutputBox";
 import Footer from "./Footer";
 
-interface State {
-    isLoading: boolean;
-    names: string[];
-    winners: number;
-}
-
-interface Props {
-    alert: AlertManager;
-}
-
 const getRandomNumber = (max: number) => Math.floor(Math.random() * max);
 
-class App extends React.Component<Props, State> {
-    constructor(props: Readonly<Props>) {
-        super(props);
+const App = () => {
+  const [names, setNames] = useState<string[]>([]);
+  const [winners, setWinners] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-        this.state = {
-            isLoading: false,
-            names: [],
-            winners: 0
-        };
-    }
+  const alert = useAlert();
 
-    namesPosted(names: string[], winners: number) {
-        this.setState({ isLoading: true, winners: winners > 0 ? winners : 3 });
+  const randomize = useCallback((names: string[]) => {
+    return new Promise<string[]>((resolve) => {
+      setTimeout(() => {
+        let unrandomized = [...names];
+        let randomized = [];
 
-        this.randomize(names).then(randomized => {
-            this.setState({ names: randomized, isLoading: false });
-            this.props.alert.success("Randomization complete!");
-        });
-    }
+        while (unrandomized.length > 0) {
+          let nextIndex = getRandomNumber(unrandomized.length);
+          let pickedItem = unrandomized[nextIndex];
+          randomized.push(pickedItem);
+          unrandomized = unrandomized.filter(
+            (_item, index) => index !== nextIndex
+          );
+        }
 
-    randomize(names: string[]) {
-        return new Promise<string[]>(resolve => {
-            setTimeout(() => {
-                let unrandomized = [...names];
-                let randomized = [];
+        resolve(randomized);
+      }, 0);
+    });
+  }, []);
 
-                while (unrandomized.length > 0) {
-                    let nextIndex = getRandomNumber(unrandomized.length);
-                    let pickedItem = unrandomized[nextIndex];
-                    randomized.push(pickedItem);
-                    unrandomized = unrandomized.filter((_item, index) => index !== nextIndex);
-                }
+  const namesPosted = useCallback(
+    (names: string[], winners: number) => {
+      setIsLoading(true);
+      setWinners(winners > 0 ? winners : 3);
 
-                resolve(randomized);
-            }, 0);
-        });
-    }
+      randomize(names).then((randomized) => {
+        setNames(randomized);
+        setIsLoading(false);
 
-    render() {
-        return (
-            <div className="container">
-                <Header />
+        alert.success("Randomization complete!");
+      });
+    },
+    [alert, randomize]
+  );
 
-                <Loader isLoading={this.state.isLoading} />
+  return (
+    <div className="container">
+      <Header />
 
-                <InputForm
-                    names={this.state.names}
-                    postInput={(names: string[], winners: number) => this.namesPosted(names, winners)}
-                />
+      <Loader isLoading={isLoading} />
 
-                <OutputBox names={this.state.names} winners={this.state.winners} />
+      <InputForm names={names} postInput={namesPosted} />
 
-                <Footer />
-            </div>
-        );
-    }
-}
+      <OutputBox names={names} winners={winners} />
 
-export default withAlert()(App);
+      <Footer />
+    </div>
+  );
+};
+
+export default App;

@@ -1,22 +1,20 @@
-import React, { Component } from "react";
+import React from "react";
 
-type Props = {
-    isLoading: boolean;
+type LoaderProps = {
+  isLoading: boolean;
 };
 
-export default class Loader extends Component<Props> {
-    render() {
-        let { isLoading } = this.props;
+const Loader = ({ isLoading }: LoaderProps) => {
+  return isLoading ? (
+    <div className="overlay">
+      <div className="loader">
+        <div />
+        <div />
+        <div />
+        <div />
+      </div>
+    </div>
+  ) : null;
+};
 
-        return isLoading ? (
-            <div className="overlay">
-                <div className="loader">
-                    <div />
-                    <div />
-                    <div />
-                    <div />
-                </div>
-            </div>
-        ) : null;
-    }
-}
+export default Loader;
