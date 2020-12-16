@@ -2,12 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorker from "./serviceWorker";
 import { Provider as AlertProvider } from "react-alert";
+import Snowfall from 'react-snowfall';
 
 import App from "./App";
 import AlertOptions from "./AlertOptions";
 
 ReactDOM.render(
     <AlertProvider {...AlertOptions}>
+        <Snowfall color="white" snowflakeCount={350} />
         <App />
     </AlertProvider>,
     document.getElementById("root")
