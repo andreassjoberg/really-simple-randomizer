@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useAlert } from "react-alert";
 
-import "./App.scss";
+import "./style/App.scss";
 
 import Header from "./Header";
 import Loader from "./Loader";
