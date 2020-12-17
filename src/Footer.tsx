@@ -28,7 +28,7 @@ const Footer = () => {
           Source code
         </a>
         ]
-        <small className="align-self-center ml-1">1.1.2</small>
+        <small className="align-self-center ml-1">1.1.3</small>
       </div>
     </footer>
   );

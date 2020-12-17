@@ -1,6 +1,9 @@
 import React, { useState, useCallback } from "react";
 import { useAlert } from "react-alert";
 
+import Snowfall from 'react-snowfall';
+import { Santa } from "./Santa";
+
 import "./style/App.scss";
 
 import Header from "./Header";
@@ -55,6 +58,9 @@ const App = () => {
 
   return (
     <div className="container">
+      <Snowfall color="white" snowflakeCount={400} style={{ position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }} />
+      <Santa />
+
       <Header />
 
       <Loader isLoading={isLoading} />
