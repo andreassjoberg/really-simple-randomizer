@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBeer } from "@fortawesome/free-solid-svg-icons";
 
@@ -75,9 +75,8 @@ const OutputBox = ({ names, winners }: OutputBoxProps) => {
               className={`card${index === 0 ? " animated backInDown" : ""}`}
             >
               <div
-                className={`card-body${
-                  checkIsWinner(index) ? " is-winner" : ""
-                }`}
+                className={`card-body${checkIsWinner(index) ? " is-winner" : ""
+                  }`}
               >
                 {checkIsWinner(index) ? (
                   <FontAwesomeIcon icon={faBeer} className="mr-2" />

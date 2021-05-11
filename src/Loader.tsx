@@ -1,10 +1,4 @@
-import React from "react";
-
-type LoaderProps = {
-  isLoading: boolean;
-};
-
-const Loader = ({ isLoading }: LoaderProps) => {
+const Loader = ({ isLoading }: { isLoading: boolean }) => {
   return isLoading ? (
     <div className="overlay">
       <div className="loader">

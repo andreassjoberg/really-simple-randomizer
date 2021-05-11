@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import { useCallback, useRef } from "react";
 import { useAlert } from "react-alert";
 
 interface InputFormProps {
@@ -41,7 +41,7 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
         </p>
         <textarea
           rows={6}
-          className="form-control"
+          className="form-control text-primary"
           ref={textAreaRef}
           autoFocus
         />

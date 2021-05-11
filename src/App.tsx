@@ -1,8 +1,8 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useAlert } from "react-alert";
 
-import Snowfall from 'react-snowfall';
-import { Santa } from "./Santa";
+// import Snowfall from 'react-snowfall';
+// import { Santa } from "./Santa";
 
 import "./style/App.scss";
 
@@ -58,8 +58,8 @@ const App = () => {
 
   return (
     <div className="container">
-      <Snowfall color="white" snowflakeCount={400} style={{ position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }} />
-      <Santa />
+      {/* <Snowfall color="white" snowflakeCount={400} style={{ position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }} /> */}
+      {/* <Santa /> */}
 
       <Header />
 
