@@ -17,6 +17,7 @@ const getRandomNumber = (max: number) => Math.floor(Math.random() * max);
 const App = () => {
   const [names, setNames] = useState<string[]>([]);
   const [winners, setWinners] = useState<number>(0);
+  const [numberOfRewardsPerWinner, setNumberOfRewardsPerWinner] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const alert = useAlert();
@@ -42,9 +43,10 @@ const App = () => {
   }, []);
 
   const namesPosted = useCallback(
-    (names: string[], winners: number) => {
+    (names: string[], winners: number, numberOfRewardsPerWinner: number[]) => {
       setIsLoading(true);
       setWinners(winners > 0 ? winners : 3);
+      setNumberOfRewardsPerWinner(numberOfRewardsPerWinner);
 
       randomize(names).then((randomized) => {
         setNames(randomized);
@@ -67,7 +69,7 @@ const App = () => {
 
       <InputForm names={names} postInput={namesPosted} />
 
-      <OutputBox names={names} winners={winners} />
+      <OutputBox names={names} winners={winners} numberOfRewardsPerWinner={numberOfRewardsPerWinner}/>
 
       <Footer />
     </div>

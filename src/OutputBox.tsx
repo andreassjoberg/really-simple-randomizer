@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBeer } from "@fortawesome/free-solid-svg-icons";
+import { faBeer, faShoppingBasket } from "@fortawesome/free-solid-svg-icons";
 
 type OutputBoxProps = {
   names: string[];
   winners: number;
+  numberOfRewardsPerWinner: number[];
 };
 
-const OutputBox = ({ names, winners }: OutputBoxProps) => {
+const OutputBox = ({ names, winners, numberOfRewardsPerWinner }: OutputBoxProps) => {
   const [left, setLeft] = useState<string[]>([]);
   const [drawn, setDrawn] = useState<string[]>([]);
 
@@ -39,6 +40,13 @@ const OutputBox = ({ names, winners }: OutputBoxProps) => {
     [left.length, winners]
   );
 
+  const getNumberOfRewards = useCallback(
+    (index) => {
+      return numberOfRewardsPerWinner[index]
+    },
+    [numberOfRewardsPerWinner]
+  );
+
   // RESET
   useEffect(() => {
     const updatedLeft = [...names];
@@ -68,21 +76,22 @@ const OutputBox = ({ names, winners }: OutputBoxProps) => {
         </button>
       </div>
       <div className="row justify-content-md-center">
-        <div className="col-md-8">
+        <div className="col-md-8" >
           {drawn.map((name, index) => (
             <div
               key={`${index}-${drawn.length}`}
               className={`card${index === 0 ? " animated backInDown" : ""}`}
             >
-              <div
-                className={`card-body${checkIsWinner(index) ? " is-winner" : ""
+              <div 
+                className={`d-flex justify-content-between card-body${checkIsWinner(index) ? " is-winner" : ""
                   }`}
               >
-                {checkIsWinner(index) ? (
+                <div>{checkIsWinner(index) ? (
                   <FontAwesomeIcon icon={faBeer} className="mr-2" />
                 ) : null}{" "}
-                {1 + names.length - (drawn.length - index)}. {name}
-              </div>
+                {1 + names.length - (drawn.length - index)}. {name} </div>
+                {checkIsWinner(index) ? (<div><FontAwesomeIcon icon={faShoppingBasket} className="mr-2" /> {getNumberOfRewards(names.length - (drawn.length - index))}</div> ) : null}
+              </div>          
             </div>
           ))}
         </div>
