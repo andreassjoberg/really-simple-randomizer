@@ -10,7 +10,7 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
   const defaultNumberOfRewards = 1;
   const defaultNumberOfWinners = 3;
   const alert = useAlert();
-  
+
   let [winners, setWinners] = useState<number>(3);
   let [numberOfRewardsPerWinner] = useState<number[]>(new Array(winners).fill(defaultNumberOfRewards));
  
@@ -43,7 +43,7 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
     
     return numberOfRewardsPerWinner.map((el, i) =>
       <div key={i}>
-        {i + 1}: <input type="text" className="ml-3" defaultValue={el} onChange={(e) => {
+        {i + 1}: <input type="text" className="bg-dark ml-1 border-0 text-right text-white" defaultValue={el} onChange={(e) => {
           const value = !isNaN(Number(e.target.value)) ? Number(e.target.value ) : defaultNumberOfRewards;
           numberOfRewardsPerWinner[i] = value;
         }} />
