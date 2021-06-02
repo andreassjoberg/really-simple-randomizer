@@ -8,7 +8,9 @@ interface InputFormProps {
 
 const InputForm = ({ names, postInput }: InputFormProps) => {
   const defaultNumberOfRewards = 1;
+  const defaultNumberOfWinners = 3;
   const alert = useAlert();
+  
   let [winners, setWinners] = useState<number>(3);
   let [numberOfRewardsPerWinner] = useState<number[]>(new Array(winners).fill(defaultNumberOfRewards));
  
@@ -42,7 +44,7 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
     return numberOfRewardsPerWinner.map((el, i) =>
       <div key={i}>
         {i + 1}: <input type="text" className="ml-3" defaultValue={el} onChange={(e) => {
-          const value = !isNaN(Number(e.target.value)) ? Number(e.target.value ) : 0;
+          const value = !isNaN(Number(e.target.value)) ? Number(e.target.value ) : defaultNumberOfRewards;
           numberOfRewardsPerWinner[i] = value;
         }} />
       </div>
@@ -79,7 +81,7 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
               type="input"
               defaultValue="3"
               className="bg-dark border-0 pr-2 text-right text-white" 
-              onChange={e => setWinners(!isNaN(Number(e.target.value )) ? Number(e.target.value ) : 3)}
+              onChange={e => setWinners(!isNaN(Number(e.target.value )) ? Number(e.target.value ) : defaultNumberOfWinners)}
             />
           </div>
         </div>
