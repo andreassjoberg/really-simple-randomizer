@@ -1,36 +1,55 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useAlert } from "react-alert";
 
 interface InputFormProps {
   names: string[];
-  postInput(names: string[], winners: number): void;
+  postInput(names: string[], winners: number, numberOfRewardsPerWinner: number[]): void;
 }
 
 const InputForm = ({ names, postInput }: InputFormProps) => {
+  const defaultNumberOfRewards = 1;
+  const defaultNumberOfWinners = 3;
   const alert = useAlert();
 
+  let [winners, setWinners] = useState<number>(3);
+  let [numberOfRewardsPerWinner] = useState<number[]>(new Array(winners).fill(defaultNumberOfRewards));
+ 
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const winnersRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = useCallback(() => {
-    const input = textAreaRef.current ? textAreaRef.current.value : "";
-    const winners =
-      winnersRef.current && !isNaN(Number(winnersRef.current.value))
-        ? Number(winnersRef.current.value)
-        : 3;
-
+    const input = textAreaRef.current ? textAreaRef.current.value : "";   
+    
     const names = input
       .split(/\n/)
       .map((s) => s.trim())
       .filter((s) => s !== undefined && s !== null && s !== "");
 
     if (names.length > 0) {
-      postInput(names, winners);
+      postInput(names, winners, numberOfRewardsPerWinner);
       return;
     }
 
     alert.error("Please input some data before submitting.");
-  }, [alert, postInput]);
+  }, [alert, postInput, winners, numberOfRewardsPerWinner]);
+
+  const createRewardInputs = useCallback(() => {    
+    if(numberOfRewardsPerWinner.length > winners) {
+      numberOfRewardsPerWinner.length = winners;
+    } else if(numberOfRewardsPerWinner.length < winners) {
+      while(numberOfRewardsPerWinner.length < winners) {
+        numberOfRewardsPerWinner.push(defaultNumberOfRewards);
+      }
+    }
+    
+    return numberOfRewardsPerWinner.map((el, i) =>
+      <div key={i}>
+        {i + 1}: <input type="text" className="bg-dark ml-1 border-0 text-right text-white" defaultValue={el} onChange={(e) => {
+          const value = !isNaN(Number(e.target.value)) ? Number(e.target.value ) : defaultNumberOfRewards;
+          numberOfRewardsPerWinner[i] = value;
+        }} />
+      </div>
+    );
+  }, [winners, numberOfRewardsPerWinner]);
 
   return names.length <= 0 ? (
     <div className="row justify-content-center">
@@ -61,11 +80,17 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
             <input
               type="input"
               defaultValue="3"
-              className="bg-dark border-0 pr-2 text-right text-white"
-              ref={winnersRef}
+              className="bg-dark border-0 pr-2 text-right text-white" 
+              onChange={e => setWinners(!isNaN(Number(e.target.value )) ? Number(e.target.value ) : defaultNumberOfWinners)}
             />
           </div>
         </div>
+      </div>
+      <div className="col-md-4">
+        <p>
+          Configure number of rewards for each winner
+        </p>       
+        {createRewardInputs()}       
       </div>
     </div>
   ) : null;
