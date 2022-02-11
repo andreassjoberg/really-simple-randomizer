@@ -43,7 +43,7 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
 
         return numberOfRewardsPerWinner.map((el, i) =>
             <div key={i} className="mt-1">
-                {i + 1}: <input type="number" className="bg-dark ml-1 border-0 text-right text-white" defaultValue={el} onChange={(e) => {
+                {i + 1}: <input type="number" className="bg-dark ms-1 border-0 text-right text-white" defaultValue={el} onChange={(e) => {
                     const value = !isNaN(Number(e.target.value)) ? Number(e.target.value) : defaultNumberOfRewards;
                     numberOfRewardsPerWinner[i] = value;
                 }} />
@@ -60,7 +60,7 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
                 </p>
                 <textarea
                     rows={6}
-                    className="form-control text-primary"
+                    className="bg-dark form-control text-white"
                     ref={textAreaRef}
                     autoFocus
                 />
@@ -71,7 +71,7 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
                         <input
                             type="number"
                             defaultValue="3"
-                            className="bg-dark border-0 pr-2 text-white"
+                            className="bg-dark border-0 pe-2 text-white"
                             onChange={e => setWinners(!isNaN(Number(e.target.value)) ? Number(e.target.value) : defaultNumberOfWinners)}
                         />
                     </div>

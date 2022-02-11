@@ -9,7 +9,7 @@ const Footer = () => {
             rel="noopener noreferrer"
           >
             Andreas Sjöberg
-        </a>
+          </a>
           <span className="mx-1">with</span>
           <a
             href="https://github.com/andreassjoberg/really-simple-randomizer/graphs/contributors"
@@ -17,17 +17,17 @@ const Footer = () => {
             rel="noopener noreferrer"
           >
             contributors
-        </a>
-        &nbsp;[
-        <a
+          </a>
+          &nbsp;[
+          <a
             href="https://github.com/andreassjoberg/really-simple-randomizer"
             target="_blank"
             rel="noopener noreferrer"
           >
             Source code
-        </a>
-        ]
-        <small className="align-self-center ml-1">1.2</small>
+          </a>
+          ]
+          <small className="align-self-center ms-1">1.3</small>
         </div>
       </div>
     </footer>

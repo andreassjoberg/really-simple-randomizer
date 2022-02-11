@@ -58,22 +58,26 @@ const OutputBox = ({ names, winners, numberOfRewardsPerWinner }: OutputBoxProps)
   return names.length > 0 ? (
     <div>
       <div className="row justify-content-center my-3">
-        <button
-          type="button"
-          className="btn btn-primary"
-          disabled={left.length === 0}
-          onClick={drawNext}
-        >
-          Show next
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary ml-5"
-          disabled={left.length === 0}
-          onClick={drawnAll}
-        >
-          Show all
-        </button>
+        <div className="col text-end">
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={left.length === 0}
+            onClick={drawNext}
+          >
+            Show next
+          </button>
+        </div>
+        <div className="col">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            disabled={left.length === 0}
+            onClick={drawnAll}
+          >
+            Show all
+          </button>
+        </div>
       </div>
       <div className="row justify-content-md-center">
         <div className="col-md-8" >
@@ -82,16 +86,16 @@ const OutputBox = ({ names, winners, numberOfRewardsPerWinner }: OutputBoxProps)
               key={`${index}-${drawn.length}`}
               className={`card${index === 0 ? " animated backInDown" : ""}`}
             >
-              <div 
+              <div
                 className={`d-flex justify-content-between card-body${checkIsWinner(index) ? " is-winner" : ""
                   }`}
               >
                 <div>{checkIsWinner(index) ? (
-                  <FontAwesomeIcon icon={faBeer} className="mr-2" />
+                  <FontAwesomeIcon icon={faBeer} className="me-2" />
                 ) : null}{" "}
-                {1 + names.length - (drawn.length - index)}. {name} </div>
-                {checkIsWinner(index) ? (<div><FontAwesomeIcon icon={faShoppingBasket} className="mr-2" /> {getNumberOfRewards(names.length - (drawn.length - index))}</div> ) : null}
-              </div>          
+                  {1 + names.length - (drawn.length - index)}. {name} </div>
+                {checkIsWinner(index) ? (<div><FontAwesomeIcon icon={faShoppingBasket} className="me-2" /> {getNumberOfRewards(names.length - (drawn.length - index))}</div>) : null}
+              </div>
             </div>
           ))}
         </div>
