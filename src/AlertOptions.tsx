@@ -1,7 +1,7 @@
 import React from "react";
-import { AlertComponentPropsWithStyle, AlertProviderProps, positions } from "react-alert";
+import { AlertTemplateProps, AlertProviderProps, positions } from "react-alert";
 
-const AlertTemplate: React.FC<AlertComponentPropsWithStyle> = ({ message, options }) => {
+const AlertTemplate: React.FC<AlertTemplateProps> = ({ message, options }) => {
     const color =
         options.type === "info"
             ? "info"
