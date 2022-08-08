@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { useAlert } from "react-alert";
+import { toast } from "react-toastify";
 
 interface InputFormProps {
     names: string[];
@@ -9,7 +9,6 @@ interface InputFormProps {
 const InputForm = ({ names, postInput }: InputFormProps) => {
     const defaultNumberOfRewards = 1;
     const defaultNumberOfWinners = 3;
-    const alert = useAlert();
 
     let [winners, setWinners] = useState<number>(3);
     let [numberOfRewardsPerWinner] = useState<number[]>(new Array(winners).fill(defaultNumberOfRewards));
@@ -29,8 +28,8 @@ const InputForm = ({ names, postInput }: InputFormProps) => {
             return;
         }
 
-        alert.error("Please input some data before submitting.");
-    }, [alert, postInput, winners, numberOfRewardsPerWinner]);
+        toast.error("Please input some data before submitting.");
+    }, [postInput, winners, numberOfRewardsPerWinner]);
 
     const createRewardInputs = useCallback(() => {
         if (numberOfRewardsPerWinner.length > winners) {

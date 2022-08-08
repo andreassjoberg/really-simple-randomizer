@@ -1,0 +1,14 @@
+:root {
+    // Toastify
+    --toastify-color-light: var(--bs-light);
+    --toastify-color-dark: var(--bs-dark);
+    --toastify-color-info: var(--bs-info);
+    --toastify-color-success: var(--bs-success);
+    --toastify-color-warning: var(--bs-warning);
+    --toastify-color-error: var(--bs-danger);
+
+    --toastify-text-color-info: var(--toastify-color-dark);
+    --toastify-text-color-success: var(--bs-gray-100);
+    --toastify-text-color-warning: var(--toastify-color-dark);
+    --toastify-text-color-error: var(--bs-gray-100);
+}

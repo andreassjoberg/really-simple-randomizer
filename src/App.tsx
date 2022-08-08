@@ -1,10 +1,5 @@
 import { useState, useCallback } from "react";
-import { useAlert } from "react-alert";
-
-// import Snowfall from 'react-snowfall';
-// import { Santa } from "./Santa";
-
-import "./style/App.scss";
+import { toast } from "react-toastify";
 
 import Header from "./Header";
 import Loader from "./Loader";
@@ -19,8 +14,6 @@ const App = () => {
   const [winners, setWinners] = useState<number>(0);
   const [numberOfRewardsPerWinner, setNumberOfRewardsPerWinner] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const alert = useAlert();
 
   const randomize = useCallback((names: string[]) => {
     return new Promise<string[]>((resolve) => {
@@ -52,24 +45,21 @@ const App = () => {
         setNames(randomized);
         setIsLoading(false);
 
-        alert.success("Randomization complete!");
+        toast.success("Randomization complete!");
       });
     },
-    [alert, randomize]
+    [randomize]
   );
 
   return (
     <div className="container">
-      {/* <Snowfall color="white" snowflakeCount={400} style={{ position: "fixed", top: 0, bottom: 0, left: 0, right: 0 }} /> */}
-      {/* <Santa /> */}
-
       <Header />
 
       <Loader isLoading={isLoading} />
 
       <InputForm names={names} postInput={namesPosted} />
 
-      <OutputBox names={names} winners={winners} numberOfRewardsPerWinner={numberOfRewardsPerWinner}/>
+      <OutputBox names={names} winners={winners} numberOfRewardsPerWinner={numberOfRewardsPerWinner} />
 
       <Footer />
     </div>

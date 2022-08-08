@@ -41,7 +41,7 @@ const OutputBox = ({ names, winners, numberOfRewardsPerWinner }: OutputBoxProps)
   );
 
   const getNumberOfRewards = useCallback(
-    (index) => {
+    (index: number) => {
       return numberOfRewardsPerWinner[index]
     },
     [numberOfRewardsPerWinner]
