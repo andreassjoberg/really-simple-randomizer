@@ -23,11 +23,8 @@ const App = () => {
 
         while (unrandomized.length > 0) {
           let nextIndex = getRandomNumber(unrandomized.length);
-          let pickedItem = unrandomized[nextIndex];
-          randomized.push(pickedItem);
-          unrandomized = unrandomized.filter(
-            (_item, index) => index !== nextIndex
-          );
+          let pickedItem = unrandomized.splice(nextIndex, 1);
+          randomized.push(pickedItem[0]);
         }
 
         resolve(randomized);
