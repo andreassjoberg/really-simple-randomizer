@@ -8,18 +8,18 @@ import "./style/App.scss";
 import App from "./App";
 
 const root = ReactDOM.createRoot(
-    document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 
 root.render(
-    <Fragment>
-        <App />
-        <ToastContainer
-            newestOnTop
-            pauseOnHover
-            theme="colored"
-        />
-    </Fragment>
+  <Fragment>
+    <App />
+    <ToastContainer
+      newestOnTop
+      pauseOnHover
+      theme="colored"
+    />
+  </Fragment>
 );
 
 // If you want your app to work offline and load faster, you can change

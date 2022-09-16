@@ -1,14 +1,176 @@
-:root {
-    // Toastify
-    --toastify-color-light: var(--bs-light);
-    --toastify-color-dark: var(--bs-dark);
-    --toastify-color-info: var(--bs-info);
-    --toastify-color-success: var(--bs-success);
-    --toastify-color-warning: var(--bs-warning);
-    --toastify-color-error: var(--bs-danger);
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&family=Rubik:wght@700&display=swap");
 
-    --toastify-text-color-info: var(--toastify-color-dark);
-    --toastify-text-color-success: var(--bs-gray-100);
-    --toastify-text-color-warning: var(--toastify-color-dark);
-    --toastify-text-color-error: var(--bs-gray-100);
+:root {
+  // Really simple randomizer
+  --rsr-bg-color-top: #264653;
+  --rsr-bg-color-bottom: #2a9d8f;
+
+  --rsr-body-color: #f1faee;
+  --rsr-light: #edede9;
+
+  --rsr-primary-button-color: #f4a261;
+  --rsr-primary-button-color-hover: #e76f51;
+
+  --rsr-winner-color-first: #ffc300;
+  --rsr-winner-color-second: #ffd60a;
+
+  --rsr-secondary-button-color: var(--rsr-bg-color-top);
+  --rsr-secondary-button-color-hover: var(--rsr-bg-color-bottom);
+
+  --rsr-body-font: "Open Sans", Arial, sans-serif;
+  --rsr-body-font-weight: 300;
+  --rsr-heading-font: "Rubik", Arial, sans-serif;
+  --rsr-heading-font-weight: 600;
+
+  // Toastify
+  --toastify-color-light: var(--bs-light);
+  --toastify-color-dark: var(--bs-dark);
+  --toastify-color-info: var(--bs-info);
+  --toastify-color-success: var(--bs-success);
+  --toastify-color-warning: var(--bs-warning);
+  --toastify-color-error: var(--bs-danger);
+
+  --toastify-text-color-info: var(--toastify-color-dark);
+  --toastify-text-color-success: var(--bs-gray-100);
+  --toastify-text-color-warning: var(--toastify-color-dark);
+  --toastify-text-color-error: var(--bs-gray-100);
+
+  // Bootstrap
+  --bs-body-bg: var(--rsr-bg-color-bottom);
+  --bs-body-color: var(--rsr-body-color);
+  --bs-body-font-family: var(--rsr-body-font);
+  --bs-body-font-weight: 300;
+  --bs-body-font-size: 14px;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background-image: linear-gradient(to bottom,
+      var(--rsr-bg-color-top),
+      var(--rsr-bg-color-bottom) 72%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  font-family: var(--rsr-body-font);
+  font-weight: var(--rsr-body-font-weight);
+  overflow-x: hidden;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--rsr-heading-font);
+  font-weight: var(--rsr-heading-font-weight);
+  text-transform: uppercase;
+  color: var(--rsr-body-color);
+}
+
+.h1,
+h1 {
+  font-size: 48px;
+}
+
+button.btn {
+  letter-spacing: 1px;
+  font-size: 16px;
+  border-radius: 5px;
+  text-transform: uppercase;
+  font-family: var(--rsr-body-font);
+  font-weight: var(--rsr-body-font-weight);
+  transition: all 0.25s ease-in-out;
+  padding: 1em 2.5em;
+  border: 0 none;
+
+  &.btn-primary {
+    background-color: var(--rsr-primary-button-color);
+    color: var(--rsr-body-color);
+
+    &:hover,
+    &:focus {
+      background-color: var(--rsr-primary-button-color-hover);
+    }
+  }
+
+  &.btn-secondary {
+    background-color: var(--rsr-secondary-button-color);
+    color: var(--rsr-body-color);
+
+    &:hover,
+    &:focus {
+      background-color: var(--rsr-secondary-button-color-hover);
+    }
+  }
+}
+
+a {
+  color: var(--rsr-body-color);
+  transition: all 0.25s ease-in-out;
+
+  &:hover,
+  &:focus {
+    color: var(--rsr-primary-button-color);
+  }
+}
+
+.card {
+  border: 0;
+
+  .card-header {
+    background-color: var(--rsr-bg-color-top);
+    color: var(--rsr-body-color);
+  }
+
+  .card-body {
+    background-color: var(--rsr-body-color);
+    color: var(--rsr-bg-color-top);
+  }
+
+  .card-footer {
+    background-color: var(--rsr-light);
+    color: var(--rsr-bg-color-top);
+    font-size: small;
+  }
+}
+
+.card.is-winner {
+  font-size: large;
+
+  .card-header {
+    color: var(--rsr-bg-color-top);
+    background-color: var(--rsr-winner-color-first);
+    animation: sparkle 1s infinite;
+  }
+
+  .card-body {
+    font-family: var(--rsr-heading-font);
+    font-weight: var(--rsr-heading-font-weight);
+  }
+}
+
+@keyframes sparkle {
+  0% {
+    background-color: var(--rsr-winner-color-first);
+  }
+
+  50% {
+    background-color: var(--rsr-winner-color-second);
+  }
+
+  100% {
+    background-color: var(--rsr-winner-color-first);
+  }
 }
