@@ -1,11 +1,11 @@
 @import "variables";
-@import "~bootstrap/scss/bootstrap";
+@import "bootstrap/scss/bootstrap";
 @import "bootswatch";
 
 @import "customize";
-@import "~react-toastify/dist/ReactToastify.css";
+@import "react-toastify/dist/ReactToastify.css";
 
-@import "~animate.css/animate.compat.css";
+@import "animate.css/animate.compat.css";
 
 .container {
   padding-bottom: 60px;
