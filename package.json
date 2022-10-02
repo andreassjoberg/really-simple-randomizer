@@ -2,7 +2,13 @@
   "name": "really-simple-randomizer",
   "private": true,
   "version": "1.0.0",
+  "author": "Andreas Sjöberg",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreassjoberg/really-simple-randomizer.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
